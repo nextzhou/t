@@ -11,6 +11,10 @@ mod moment;
 const TIME_FORMAT: &'static str = "%Y-%m-%d %H:%M:%S";
 
 fn main() {
+    if should_show_help(&env::args().nth(1).unwrap_or(String::new())) {
+        show_help_msg();
+        return;
+    }
     let args = split_args(env::args().skip(1));
     let moments = moment::parse(&args.moment);
     let delta = delta::parse(&args.delta).unwrap_or(Duration::default());
@@ -68,4 +72,24 @@ fn is_delta<T: AsRef<str>>(s: &T) -> bool {
     }
     let s = s.as_ref();
     (s.starts_with('+') || s.starts_with('-')) && !OFFSET.is_match(s)
+}
+
+fn should_show_help(s: &str) -> bool {
+    match s.trim() {
+        "-h" | "--help" | "help" => true,
+        _ => false,
+    }
+}
+
+fn show_help_msg() {
+    let msg = r"Timestamp conversion tool
+
+Usage: t [time point] [+|- <duration>...]...
+
+Time point format: all the usual format 😎
+
+Duration format: <Number><Unit>
+    Available duration units: y[ear], M[onth], d[ay], h[our], m[inute], s[econd]
+";
+    println!("{}", msg)
 }
