@@ -97,8 +97,8 @@ pub(in crate::moment) fn split(s: &str) -> Option<Args> {
 
 fn parse_am_pm(s: &str) -> Option<AmPm> {
     lazy_static! {
-        static ref AM_PATTERN: Regex = Regex::new(r"(?i)a.?m.?").expect("am regex pattern");
-        static ref PM_PATTERN: Regex = Regex::new(r"(?i)p.?m.?").expect("pm regex pattern");
+        static ref AM_PATTERN: Regex = Regex::new(r"(?i)^a\.?m\.?$").expect("am regex pattern");
+        static ref PM_PATTERN: Regex = Regex::new(r"(?i)^p\.?m\.?$").expect("pm regex pattern");
     }
     if AM_PATTERN.is_match(s) {
         return Some(AmPm::AM);
