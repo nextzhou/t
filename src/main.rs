@@ -68,7 +68,7 @@ where
 fn is_delta<T: AsRef<str>>(s: &T) -> bool {
     lazy_static! {
         static ref OFFSET: Regex =
-            Regex::new(r"^[\+-]\d{4}$").expect("time zone offset regex pattern");
+            Regex::new(r"^[\+-]\d{2}:?\d{2}$").expect("time zone offset regex pattern");
     }
     let s = s.as_ref();
     (s.starts_with('+') || s.starts_with('-')) && !OFFSET.is_match(s)
