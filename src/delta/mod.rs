@@ -1,9 +1,9 @@
 use chrono::prelude::*;
 use lazy_static::lazy_static;
 use regex::Regex;
+use std::fmt::{self, Display, Formatter};
 use std::ops::{Add, AddAssign, Neg};
 use std::str::FromStr;
-use std::fmt::{self, Display, Formatter};
 
 #[derive(Debug, Default)]
 pub struct Duration {
@@ -62,7 +62,7 @@ impl FromStr for Duration {
                 ..Duration::default()
             });
         }
-        Err(Box::new(ParseError{}))
+        Err(Box::new(ParseError {}))
     }
 }
 
@@ -73,7 +73,7 @@ impl Display for ParseError {
         f.write_str("parse duration error")
     }
 }
-impl ::std::error::Error for ParseError { }
+impl ::std::error::Error for ParseError {}
 
 impl Add<DateTime<Local>> for &Duration {
     type Output = DateTime<Local>;

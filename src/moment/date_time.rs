@@ -41,6 +41,9 @@ pub fn parse(s: &str) -> Option<Vec<DateTime<Local>>> {
 // 2018-11-21/11:21:11
 fn parse_case1(s: &str) -> Option<DateTime<Local>> {
     let ss: Vec<_> = s.split('/').collect();
+    if ss.iter().any(is_number) {
+        return None;
+    }
     if ss.len() == 2 {
         let date_args = date::split(&ss[0])?;
         let time_args = time::split(&ss[1])?;
@@ -55,5 +58,12 @@ fn parse_case1(s: &str) -> Option<DateTime<Local>> {
         }
     } else {
         None
+    }
+}
+
+fn is_number<T: AsRef<str>>(s: &T) -> bool {
+    match s.as_ref().parse::<i64>() {
+        Ok(_) => true,
+        Err(_) => false,
     }
 }
