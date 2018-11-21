@@ -1,3 +1,4 @@
+use self::delta::Duration;
 use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -12,13 +13,12 @@ const TIME_FORMAT: &'static str = "%Y-%m-%d %H:%M:%S";
 fn main() {
     let args = split_args(env::args().skip(1));
     let moments = moment::parse(&args.moment);
-    let deltas = delta::parse(&args.delta);
+    let delta = delta::parse(&args.delta).unwrap_or(Duration::default());
 
     let results: BTreeSet<_> = moments
         .iter()
-        .cartesian_product(deltas.iter())
-        .map(|(&t, &d)| {
-            let t = t + d;
+        .map(|&t| {
+            let t = &delta + t;
             format!("{}\t{}", t.format(TIME_FORMAT), t.timestamp())
         })
         .collect();
