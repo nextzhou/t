@@ -88,11 +88,13 @@ impl Add<DateTime<Local>> for &Duration {
         );
         let (mut y, mut m) = (y + self.year, m as i32 + self.month);
         if m <= 0 {
-            m += 12;
-            y -= 1;
+            let n = -m / 12 + 1;
+            m += 12 * n;
+            y -= n;
         } else if m > 12 {
-            m -= 12;
-            y += 1;
+            let n = m / 12;
+            m -= 12 * n;
+            y += n;
         }
         let t = Local.ymd(y, m as u32, d).and_hms(h, min, s);
         t + time::Duration::days(self.day as i64)
