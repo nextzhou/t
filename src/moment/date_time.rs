@@ -1,5 +1,5 @@
-use chrono::prelude::*;
 use crate::moment::{date, time};
+use chrono::prelude::*;
 use itertools::Itertools;
 
 pub fn parse(s: &str) -> Option<Vec<DateTime<Local>>> {
